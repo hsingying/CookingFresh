@@ -6,7 +6,7 @@ header("Content-Type:text/html; charset=utf-8");
 // 連結資料庫
 require_once 'dbconnect.php';
 require_once 'Curl.php';
-$db = dbconnect::init();
+$db = db_connect::init();
 
 $id = $_GET['id'];
 

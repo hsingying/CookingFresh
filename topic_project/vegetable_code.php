@@ -21,7 +21,7 @@ if (($handle = fopen("vegetable1.csv", "r")) !== FALSE) {
 
 //資料庫連線
 require_once "dbconnect.php";
-$db = dbconnect::init();
+$db = db_connect::init();
 //將資料insert進資料庫
 for($i = 2;$i<=count($vegetable1);$i++){
     $id = $vegetable1[$i][1];

@@ -20,7 +20,7 @@ if (($handle = fopen("fruit.csv", "r")) !== FALSE) {
 
 //資料庫連線
 require_once "dbconnect.php";
-$db = dbconnect::init();
+$db = db_connect::init();
 //將資料insert進資料庫
 for($i = 1;$i<=count($fruit);$i++){
     $id = $fruit[$i][1];

@@ -29,8 +29,7 @@ class Curl
 
 		// 抓取網頁內容
 
-	    $data = curl_exec($ch);
-		return $data;
+	    return curl_exec($ch);
 	}
 }
 

@@ -17,7 +17,7 @@ if (($handle = fopen("flower.csv", "r")) !== FALSE) {
 }
 //資料庫連線
 require_once "dbconnect.php";
-$db = dbconnect::init();
+$db = db_connect::init();
 //將資料insert進資料庫
 for($i = 1;$i<=count($flower);$i++){
     $id = $flower[$i][0];
