@@ -1,6 +1,6 @@
 <?php 
 //資料庫連線 
-class db_connect{
+class DBConnect{
       public static function init() {
           try{
                 $db_host = 'db.mis.kuas.edu.tw';

@@ -13,7 +13,7 @@ if (($handle = fopen("fish.csv", "r")) !== FALSE) {
 }
 //資料庫連線
 require_once "dbconnect.php";
-$db = db_connect::init();
+$db = DBConnect::init();
 //將資料insert進資料庫
 for($i = 1;$i<=count($seafood);$i++){
     $id = $seafood[$i][0];

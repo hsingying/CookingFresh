@@ -3,7 +3,7 @@ header("Content-Type:text/html; charset=utf-8");
 
 require_once 'dbconnect.php';
 require_once 'Curl.php';
-$db = db_connect::init();
+$db = DBConnect::init();
 $ingredient = array();
 $recipe=array();
 
