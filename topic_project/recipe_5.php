@@ -2,7 +2,7 @@
 
 //食材名稱找id
 
-//error_reporting(0);
+error_reporting(0);
 header("Content-Type:text/html; charset=utf-8");
 
 // 連結資料庫
@@ -13,10 +13,8 @@ $pageNum = $_GET['page'];
 $pageSize = $_GET['pageSize'];
 $query = $_GET['query'];
 $query = urldecode($query);
-//echo $query;
 $search = array();
 $search = explode(" ", $query);
-//var_dump($search);
 $ingredient_array = array();
 $param = array();
 if ($query != " ") {

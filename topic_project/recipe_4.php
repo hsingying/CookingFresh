@@ -15,7 +15,6 @@ $query = urldecode($query);
 //echo $query;
 $search = array();
 $search = explode(" ", $query);
-//var_dump($search);
 // 存放食譜名稱及食譜id的陣列
 $recipe_array = array();
 $param = array();
@@ -38,12 +37,9 @@ if ($query != " ") {
             $j++;
         }
         $Queryresult->execute();
-//        $Queryresult = $db->query($Querysql);
-//var_dump($result);
         foreach ($Queryresult->fetchAll() as $data) {
             // 將資料塞進array中
             $data['recipe_name'] = str_replace(' │ ', '', $data['recipe_name']);
-            //$final_recipe_name = filterEmoji($data['recipe_name']);
             ArrayFormat($data['recipe_name'], $data['recipe_id'], $data['recipe_img'], $recipe_array);
         }
     }
@@ -70,7 +66,6 @@ if ($dataCount == 0) {
 $info = array('TotalPage' => $page, 'Page' => $pageNum, 'DataCount' => $dataCount, 'PageDataCount' => count($returnRecipeArray));
 $returnData = array('Info' => $info, 'Recipe' => $returnRecipeArray);
 
-/* TODO : 整理資料格式並回傳 */
 echo urldecode(json_encode($returnData));
 
 /* 將資料塞進array的function */

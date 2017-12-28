@@ -11,7 +11,6 @@ if (($handle = fopen("fish.csv", "r")) !== FALSE) {
     }
     fclose($handle);
 }
-//print_r($seafood);
 //資料庫連線
 require_once "dbconnect.php";
 $db = dbconnect::init();
@@ -19,7 +18,6 @@ $db = dbconnect::init();
 for($i = 1;$i<=count($seafood);$i++){
     $id = $seafood[$i][0];
     $name = $seafood[$i][1];
-    //echo "123";
     $sql = "UPDATE `ingredients` SET ingredients_origin_name = '$name' WHERE ingredients_id = '$id'";
     $result = $db->exec($sql);
     echo $result;

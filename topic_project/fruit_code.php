@@ -5,7 +5,6 @@ $fruit = array();
 if (($handle = fopen("fruit.csv", "r")) !== FALSE) {
     while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
         $num = count($data);
-       // echo "<p> $num fields in line $row: <br /></p>\n";
         $data[0] = str_replace("?","",$data[0]);
         if($data[1]!=""){
              $fruit[$row][0] = $data[0]."-".$data[1];
@@ -32,7 +31,6 @@ for($i = 1;$i<=count($fruit);$i++){
     $id = str_replace('(註3)','',$id);
     $id = str_replace('(註4)','',$id);
     $name = $fruit[$i][0];
-    //echo "123";
     $sql = "UPDATE `ingredients` SET ingredients_origin_name = '$name' WHERE ingredients_id = '$id'";
     $result = $db->exec($sql);
     echo $result;

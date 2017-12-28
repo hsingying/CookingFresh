@@ -15,7 +15,6 @@ if (($handle = fopen("flower.csv", "r")) !== FALSE) {
     }
     fclose($handle);
 }
-//print_r($flower);
 //資料庫連線
 require_once "dbconnect.php";
 $db = dbconnect::init();
@@ -24,7 +23,6 @@ for($i = 1;$i<=count($flower);$i++){
     $id = $flower[$i][0];
     $name = $flower[$i][1];
     $origin = $flower[$i][2];
-    //echo "123";
     $sql = "INSERT INTO `flower`(`ingredients_id`, `ingredients_name`, `ingredients_origin_name`) VALUES ('$id','$name','$origin')";
     $result = $db->exec($sql);
     echo $result;

@@ -32,8 +32,7 @@ foreach ($selectResult->fetchAll() as $data) {
         IngredientArrayFormat($data['recipe_detail_name'], $data['recipe_detail_qty'], $data['recipe_detail_unit'], $ingredient);
     }
 }
-//var_dump($ingredient);
-//var_dump($step_array);
+
 // 判斷若資料庫找不到資料，就到icook爬資料回來
 if (count($ingredient) == 0 && count($step_array) == 0) {
     /* 爬蟲 */
@@ -63,14 +62,12 @@ if (count($ingredient) == 0 && count($step_array) == 0) {
 
     //人份量
     preg_match_all('/<span itemprop="recipeYield" class="portions">份量<span><b>([^<>]+)<\/b>/', $data, $recipe_unit);
-    //var_dump($recipe_unit);
     $recipe_num = $recipe_unit[1][0];
     if (!$recipe_num >= 1) {
         $recipe_num = 1;
     }
     $UpdateSql = "UPDATE `recipe_new` SET `recipe_unit`= $recipe_num WHERE `recipe_id` = '$id'";
     $db->exec($UpdateSql);
-    //echo $recipe_num;
     // 整理食材名稱及數量
     for ($i = 1; $i < count($ingredient_name); $i++) {
         for ($j = 0; $j < count($ingredient_name[$i]); $j++) {
@@ -81,7 +78,6 @@ if (count($ingredient) == 0 && count($step_array) == 0) {
             $unit_array = FormatUnit($temp_unit);
             $qty = $unit_array['Qty'];
             $unit = $unit_array['Unit'];
-            //echo $qty.'<br>'.$unit;
             // 將食材資料整理至陣列
             if ($qty == 0) {
                 ExceptionArrayFormat($temp_name, $unit, $exception);
@@ -111,11 +107,9 @@ if (count($ingredient) == 0 && count($step_array) == 0) {
 
             // 將步驟資料整理至陣列
             StepArrayFormat($temp_seq, $temp_content, $temp_picture, $step_array);
-            //echo $temp_seq." ".$temp_content." ".$temp_picture."<br/>";
             // 將料理製作步驟輸入資料庫
             $insertSql = "INSERT INTO `steps`(`recipe_id`, `step_seq`, `step_content`, `step_img`) VALUES ('$id','$temp_seq','$temp_content','$temp_picture')";
             $db->exec($insertSql);
-            //echo $steps[$i][$j]."<br/>";
         }
     }
 }
@@ -128,7 +122,6 @@ $selectRecipeSql = "SELECT DISTINCT (`recipe_id`), `recipe_name`, `recipe_img`, 
 $recipeResult = $db->query($selectRecipeSql);
 foreach ($recipeResult->fetchAll() as $data) {
     $data['recipe_name'] = str_replace(' │ ', '', $data['recipe_name']);
-    //$result_recipe_name = filterEmoji($data['recipe_name']);
     $temp = array('RecipeName' => urlencode($data['recipe_name']), 'RecipeID' => $data['recipe_id'], 'RecipePicture' => urlencode($data['recipe_img']), 'RecipeUnit' => $data['recipe_unit']);
     array_push($recipe_array, $temp);
 }
@@ -137,15 +130,8 @@ $ingredient = array_unique($ingredient);
 /* 整理為JSON格式 */
 $return_data = array('description' => $recipe_array, 'ingredient' => $ingredient, 'exception' => $exception, 'step' => $step_array);
 
-//$s=urldecode(json_encode($return_data));
 
 echo urldecode(json_encode($return_data));
-
-/* echo "<html> <script>
-  var s = JSON.parse('$s');
-  console.log(s);
-  </script></html>"; */
-
 
 
 /* 陣列整理function */

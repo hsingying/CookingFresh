@@ -1,6 +1,6 @@
 <?php
 
-//error_reporting(0);
+error_reporting(0);
 header("Content-Type:text/html; charset=utf-8");
 
 // 連結資料庫
@@ -16,7 +16,6 @@ $recipe_array = array();
 /* 先帶ID去資料庫找有沒有食譜 */
 $Querysql = "SELECT DISTINCT(rn.`recipe_id`), `recipe_name`, `recipe_img` FROM `recipe_new` rn join `recipe_ingredients` ri on rn.`recipe_id` = ri.`recipe_id`  where `ingredients_id` = '$id' and `recipe_name` <> ''";
 $Queryresult = $db->query($Querysql);
-//var_dump($result);
 foreach ($Queryresult->fetchAll() as $data) {
     // 將資料塞進array中
     $data['recipe_name'] = str_replace(' │ ', '', $data['recipe_name']);
@@ -29,8 +28,6 @@ foreach ($Queryresult->fetchAll() as $data) {
 if (count($recipe_array) == 0) {
 
     /* 先去資料庫找name */
-    //$sql = "SELECT `ingredients_name` FROM `ingredients` WHERE `ingredients_id` = '$id'";
-    //$sql = "SELECT `ingredients_name` FROM `flower` WHERE `ingredients_id` = '$id'";
     $sql = "SELECT	`ingredients_name`
             FROM	`ingredients`
             WHERE `ingredients_id` = '$id'";
@@ -62,7 +59,7 @@ if (count($recipe_array) == 0) {
     if ($total_page > 3) {
         $total_page = 3;
     }
-    //echo $total_page;
+    
     for ($p = 1; $p <= $total_page; $p++) {
         $Url = $a . "&page=" . $p;
         $curl = new Curl($Url);
@@ -91,7 +88,6 @@ if (count($recipe_array) == 0) {
                 $temp_name = $recipe_name[$i][$j];
                 $temp_picture = $recipe_picture[1][0];
 
-                //ArrayFormat($temp_name, $temp_id,$temp_picture , $recipe_array);
                 // 將食譜資料寫入資料庫\
                 
                 $IfInsert = TRUE;
@@ -111,15 +107,12 @@ if (count($recipe_array) == 0) {
 
 
 
-                //var_dump($recipe_array);
-                //echo "<br/>".$recipe_name[$i][$j]."id=".$recipe_id[$i][$j]."<br/>"; 
             }
         }
     }
     /* 帶ID去資料庫找食譜 */
     $Querysql = "SELECT rn.`recipe_id`, `recipe_name`, `recipe_img` FROM `recipe_new` rn join `recipe_ingredients` ri on rn.`recipe_id` = ri.`recipe_id`  where `ingredients_id` = '$id' and `recipe_name` <> ''";
     $Queryresult = $db->query($Querysql);
-//var_dump($result);
     foreach ($Queryresult->fetchAll() as $data) {
         // 將資料塞進array中
         ArrayFormat($data['recipe_name'], $data['recipe_id'], $data['recipe_img'], $recipe_array);
@@ -132,7 +125,6 @@ if (count($recipe_array) == 0) {
 
 
 
-/* TODO : 整理資料格式並回傳 */
 echo urldecode(json_encode($recipe_array));
 
 /* 將資料塞進array的function */

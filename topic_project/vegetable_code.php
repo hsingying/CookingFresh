@@ -6,7 +6,6 @@ $vegetable1 = array();
 if (($handle = fopen("vegetable1.csv", "r")) !== FALSE) {
     while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
         $num = count($data);
-       // echo "<p> $num fields in line $row: <br /></p>\n";
         
         if($data[1]!=""){
              $vegetable1[$row][0] = $data[0]."-".$data[1];
@@ -19,8 +18,7 @@ if (($handle = fopen("vegetable1.csv", "r")) !== FALSE) {
     }
     fclose($handle);
 }
-//print_r($vegetable1);
-//echo(count($vegetable1));
+
 //資料庫連線
 require_once "dbconnect.php";
 $db = dbconnect::init();
@@ -28,7 +26,6 @@ $db = dbconnect::init();
 for($i = 2;$i<=count($vegetable1);$i++){
     $id = $vegetable1[$i][1];
     $name = $vegetable1[$i][0];
-    //echo "123";
     $sql = "UPDATE `ingredients` SET ingredients_origin_name = '$name' WHERE ingredients_id = '$id'";
     $result = $db->exec($sql);
     echo $result;

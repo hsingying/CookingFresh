@@ -9,7 +9,6 @@ $db = dbconnect::init();
 
 $id = $_GET['id'];
 
-//$sql = "SELECT  `ingredients_origin_name` FROM `ingredients` WHERE `ingredients_id` = '$id'";
 $sql = "SELECT	`ingredients_origin_name`,`ingredients_name`
 FROM	`ingredients`
 WHERE `ingredients_id` = '$id'";
