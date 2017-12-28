@@ -18,30 +18,29 @@ $search = explode(" ", $query);
 $recipe_array = array();
 $param = array();
 if (trim($query) != "") {
-    
-        /* 先帶ID去資料庫找有沒有食譜 */
-        if (count($search) > 0) {
-            $Querysql = "SELECT  distinct(`recipe_id`) , `recipe_name` ,  `recipe_img` FROM  `recipe` WHERE  `recipe_name` like ? ";
-            for ($i = 1; $i < count($search); $i++) {
-                $Querysql .="AND `recipe_name` like ? ";
-            }
+
+    /* 先帶ID去資料庫找有沒有食譜 */
+    if (count($search) > 0) {
+        $Querysql = "SELECT  distinct(`recipe_id`) , `recipe_name` ,  `recipe_img` FROM  `recipe` WHERE  `recipe_name` like ? ";
+        for ($i = 1; $i < count($search); $i++) {
+            $Querysql .="AND `recipe_name` like ? ";
         }
-        for($i=0;$i<count($search);$i++){
-            array_push($param,"%".$search[$i]."%");
-        }
-        $Queryresult = $db->prepare($Querysql);
-        $j=1;
-        for($i=0;$i<count($param);$i++){
-            $Queryresult->bindParam($j,$param[$i]);
-            $j++;
-        }
-        $Queryresult->execute();
-        foreach ($Queryresult->fetchAll() as $data) {
-            // 將資料塞進array中
-            $data['recipe_name'] = str_replace(' │ ', '', $data['recipe_name']);
-            ArrayFormat($data['recipe_name'], $data['recipe_id'], $data['recipe_img'], $recipe_array);
-        }
-    
+    }
+    for ($i = 0; $i < count($search); $i++) {
+        array_push($param, "%" . $search[$i] . "%");
+    }
+    $Queryresult = $db->prepare($Querysql);
+    $j = 1;
+    for ($i = 0; $i < count($param); $i++) {
+        $Queryresult->bindParam($j, $param[$i]);
+        $j++;
+    }
+    $Queryresult->execute();
+    foreach ($Queryresult->fetchAll() as $data) {
+        // 將資料塞進array中
+        $recipe_name = str_replace(' │ ', '', $data['recipe_name']);
+        ArrayFormat($recipe_name, $data['recipe_id'], $data['recipe_img'], $recipe_array);
+    }
 }
 $dataCount = count($recipe_array);
 // 如果沒有食譜, 傳空字串過去

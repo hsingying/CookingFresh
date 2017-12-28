@@ -41,20 +41,21 @@ if (trim($query) != "") {
 // 將資料塞進array中
         foreach ($Queryresult->fetchAll() as $data) {
             //判斷食材種類 start
+            $ingredients_id = $data['ingredients_id'];
             $ingredientKind = "";
-            if (strlen($data['ingredients_id']) >= 4 && is_numeric($data['ingredients_id'])) {
+            if (strlen($ingredients_id) >= 4 && is_numeric($ingredients_id)) {
                 $ingredientKind = "seafood";
-            } else if ($data['ingredients_id'] == "chicken") {
+            } else if ($ingredients_id == "chicken") {
                 $ingredientKind = "chicken";
-            } else if ($data['ingredients_id'] == "egg") {
+            } else if ($ingredients_id == "egg") {
                 $ingredientKind = "egg";
-            } else if ($data['ingredients_id'] == "pork") {
+            } else if ($ingredients_id == "pork") {
                 $ingredientKind = "pork";
             } else {
                 $ingredientKind = "vegetable";
             }
             //判斷食材種類 end
-            $temp = array('IngredientKind' => $ingredientKind, 'IngredientId' => $data['ingredients_id'], 'IngredientName' => urlencode($data['ingredients_name']), 'IngredientOriginName' => urlencode($data['ingredients_origin_name']));
+            $temp = array('IngredientKind' => $ingredientKind, 'IngredientId' => $ingredients_id, 'IngredientName' => urlencode($data['ingredients_name']), 'IngredientOriginName' => urlencode($data['ingredients_origin_name']));
             array_push($ingredient_array, $temp);
         }
 }

@@ -121,8 +121,8 @@ $recipe_array = array();
 $selectRecipeSql = "SELECT DISTINCT (`recipe_id`), `recipe_name`, `recipe_img`, `recipe_unit` FROM `recipe_new` WHERE `recipe_id` = '$id'";
 $recipeResult = $db->query($selectRecipeSql);
 foreach ($recipeResult->fetchAll() as $data) {
-    $data['recipe_name'] = str_replace(' │ ', '', $data['recipe_name']);
-    $temp = array('RecipeName' => urlencode($data['recipe_name']), 'RecipeID' => $data['recipe_id'], 'RecipePicture' => urlencode($data['recipe_img']), 'RecipeUnit' => $data['recipe_unit']);
+    $recipe_name = str_replace(' │ ', '', $data['recipe_name']);
+    $temp = array('RecipeName' => urlencode($recipe_name), 'RecipeID' => $data['recipe_id'], 'RecipePicture' => urlencode($data['recipe_img']), 'RecipeUnit' => $data['recipe_unit']);
     array_push($recipe_array, $temp);
 }
 //確定沒有重複的值
@@ -180,6 +180,7 @@ function Format($str) {
     $str = str_replace('-->', '', $str);
     $str = str_replace('</big>', '', $str);
     $str = str_replace('</div>', '', $str);
+    $str = str_replace('|', '\|', $str);
     $str = str_replace(" ", '', $str);
     return $str;
 }

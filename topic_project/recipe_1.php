@@ -18,10 +18,8 @@ $Querysql = "SELECT DISTINCT(rn.`recipe_id`), `recipe_name`, `recipe_img` FROM `
 $Queryresult = $db->query($Querysql);
 foreach ($Queryresult->fetchAll() as $data) {
     // 將資料塞進array中
-    $data['recipe_name'] = str_replace(' │ ', '', $data['recipe_name']);
-    $data['recipe_name'] = str_replace('『', '「', $data['recipe_name']);
-    $data['recipe_name'] = str_replace('』', '」', $data['recipe_name']);
-    ArrayFormat($data['recipe_name'], $data['recipe_id'], $data['recipe_img'], $recipe_array);
+    $recipe_name = str_replace(' │ ', '', $data['recipe_name']);
+    ArrayFormat($recipe_name, $data['recipe_id'], $data['recipe_img'], $recipe_array);
 }
 
 // 如果資料庫沒有資料, 則去icook爬資料回來
