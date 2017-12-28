@@ -12,14 +12,13 @@ $pageNum = $_GET['page'];
 $pageSize = $_GET['pageSize'];
 $query = $_GET['query'];
 $query = urldecode($query);
-//echo $query;
 $search = array();
 $search = explode(" ", $query);
 // 存放食譜名稱及食譜id的陣列
 $recipe_array = array();
 $param = array();
-if ($query != " ") {
-    if ($query != "") {
+if (trim($query) != "") {
+    
         /* 先帶ID去資料庫找有沒有食譜 */
         if (count($search) > 0) {
             $Querysql = "SELECT  distinct(`recipe_id`) , `recipe_name` ,  `recipe_img` FROM  `recipe` WHERE  `recipe_name` like ? ";
@@ -42,7 +41,7 @@ if ($query != " ") {
             $data['recipe_name'] = str_replace(' │ ', '', $data['recipe_name']);
             ArrayFormat($data['recipe_name'], $data['recipe_id'], $data['recipe_img'], $recipe_array);
         }
-    }
+    
 }
 $dataCount = count($recipe_array);
 // 如果沒有食譜, 傳空字串過去

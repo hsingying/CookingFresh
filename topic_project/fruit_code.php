@@ -18,7 +18,6 @@ if (($handle = fopen("fruit.csv", "r")) !== FALSE) {
     fclose($handle);
 }
 
-//print_r($fruit);
 //資料庫連線
 require_once "dbconnect.php";
 $db = dbconnect::init();

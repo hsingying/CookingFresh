@@ -17,8 +17,7 @@ $search = array();
 $search = explode(" ", $query);
 $ingredient_array = array();
 $param = array();
-if ($query != " ") {
-    if ($query != "") {
+if (trim($query) != "") {
         if (count($search) > 0) {
             $Querysql = "SELECT	`ingredients_id`,`ingredients_origin_name`,`ingredients_name`
 				FROM	`ingredients`
@@ -58,7 +57,6 @@ if ($query != " ") {
             $temp = array('IngredientKind' => $ingredientKind, 'IngredientId' => $data['ingredients_id'], 'IngredientName' => urlencode($data['ingredients_name']), 'IngredientOriginName' => urlencode($data['ingredients_origin_name']));
             array_push($ingredient_array, $temp);
         }
-    }
 }
 $dataCount = count($ingredient_array);
 
