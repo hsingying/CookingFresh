@@ -57,7 +57,7 @@ if (count($recipe_array) == 0) {
     if ($total_page > 3) {
         $total_page = 3;
     }
-    
+
     for ($p = 1; $p <= $total_page; $p++) {
         $Url = $a . "&page=" . $p;
         $curl = new Curl($Url);
@@ -87,12 +87,12 @@ if (count($recipe_array) == 0) {
                 $temp_picture = $recipe_picture[1][0];
 
                 // 將食譜資料寫入資料庫\
-                
+
                 $IfInsert = TRUE;
                 $beforeInsert = "select count(`recipe_id`) as recipeCNT from `recipe_new` where recipe_id = $temp_id";
                 $IsInsert = $db->query($beforeInsert);
-                foreach($IsInsert->fetchAll() as $row){
-                    if($row['recipeCNT']>0){
+                foreach ($IsInsert->fetchAll() as $row) {
+                    if ($row['recipeCNT'] > 0) {
                         $IfInsert = FALSE;
                     }
                 }
@@ -102,9 +102,6 @@ if (count($recipe_array) == 0) {
                 }
                 $sql = "INSERT INTO `recipe_ingredients`(`recipe_id`,`ingredients_id`) VALUES('$temp_id','$id')";
                 $db->exec($sql);
-
-
-
             }
         }
     }

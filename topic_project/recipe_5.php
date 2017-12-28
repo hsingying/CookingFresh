@@ -18,46 +18,46 @@ $search = explode(" ", $query);
 $ingredient_array = array();
 $param = array();
 if (trim($query) != "") {
-        if (count($search) > 0) {
-            $Querysql = "SELECT	`ingredients_id`,`ingredients_origin_name`,`ingredients_name`
+    if (count($search) > 0) {
+        $Querysql = "SELECT	`ingredients_id`,`ingredients_origin_name`,`ingredients_name`
 				FROM	`ingredients`
 				WHERE (`ingredients_name` like ? OR `ingredients_origin_name` like ?)";
-            for ($i = 1; $i < count($search); $i++) {
-                $Querysql .="OR (`ingredients_name` like ? OR `ingredients_origin_name` like ?)";
-            }
+        for ($i = 1; $i < count($search); $i++) {
+            $Querysql .="OR (`ingredients_name` like ? OR `ingredients_origin_name` like ?)";
         }
+    }
 
-          for($i=0;$i<count($search);$i++){
-            array_push($param,"%".$search[$i]."%");
-        }
-        $Queryresult = $db->prepare($Querysql);
-        $j=1;
-        for($i=0;$i<count($param);$i++){
-            $Queryresult->bindParam($j,$param[$i]);
-            $Queryresult->bindParam($j+1,$param[$i]);
-            $j++;
-        }
-        $Queryresult->execute();
+    for ($i = 0; $i < count($search); $i++) {
+        array_push($param, "%" . $search[$i] . "%");
+    }
+    $Queryresult = $db->prepare($Querysql);
+    $j = 1;
+    for ($i = 0; $i < count($param); $i++) {
+        $Queryresult->bindParam($j, $param[$i]);
+        $Queryresult->bindParam($j + 1, $param[$i]);
+        $j++;
+    }
+    $Queryresult->execute();
 // 將資料塞進array中
-        foreach ($Queryresult->fetchAll() as $data) {
-            //判斷食材種類 start
-            $ingredients_id = $data['ingredients_id'];
-            $ingredientKind = "";
-            if (strlen($ingredients_id) >= 4 && is_numeric($ingredients_id)) {
-                $ingredientKind = "seafood";
-            } else if ($ingredients_id == "chicken") {
-                $ingredientKind = "chicken";
-            } else if ($ingredients_id == "egg") {
-                $ingredientKind = "egg";
-            } else if ($ingredients_id == "pork") {
-                $ingredientKind = "pork";
-            } else {
-                $ingredientKind = "vegetable";
-            }
-            //判斷食材種類 end
-            $temp = array('IngredientKind' => $ingredientKind, 'IngredientId' => $ingredients_id, 'IngredientName' => urlencode($data['ingredients_name']), 'IngredientOriginName' => urlencode($data['ingredients_origin_name']));
-            array_push($ingredient_array, $temp);
+    foreach ($Queryresult->fetchAll() as $data) {
+        //判斷食材種類 start
+        $ingredients_id = $data['ingredients_id'];
+        $ingredientKind = "";
+        if (strlen($ingredients_id) >= 4 && is_numeric($ingredients_id)) {
+            $ingredientKind = "seafood";
+        } else if ($ingredients_id == "chicken") {
+            $ingredientKind = "chicken";
+        } else if ($ingredients_id == "egg") {
+            $ingredientKind = "egg";
+        } else if ($ingredients_id == "pork") {
+            $ingredientKind = "pork";
+        } else {
+            $ingredientKind = "vegetable";
         }
+        //判斷食材種類 end
+        $temp = array('IngredientKind' => $ingredientKind, 'IngredientId' => $ingredients_id, 'IngredientName' => urlencode($data['ingredients_name']), 'IngredientOriginName' => urlencode($data['ingredients_origin_name']));
+        array_push($ingredient_array, $temp);
+    }
 }
 $dataCount = count($ingredient_array);
 
